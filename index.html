@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var xhr = new XMLHttpRequest;
+        var method = "GET";
+        var URL = "https://restcountries.com/v3.1/all";
+
+        xhr.open(method,URL);
+
+        xhr.onload = function() {
+            if(xhr.status === 200) {
+            var countrydetails = JSON.parse(xhr.responseText);
+            // console.log(countrydetails);
+ // Q.No.1. Asian countries using filter function
+            var A = countrydetails.filter((ele)=>ele.continents == "Asia");
+            var Q1 = A.filter((ele)=>ele.region == "Asia");
+            var Q1a = Q1.map((ele) => ele.name.common);
+            // console.log(Q1a);
+// Q.No.2. Population less than 2 Lakhs
+            var B = countrydetails.filter((a)=> a.population<200000);
+            var Q2 = B.map((c)=>c.name.common);
+            // console.log(Q2);
+//  Q.No.3 Print the country - name, flag, capital using forEach
+            // countrydetails.forEach((ele) => console.log(ele.name.common));
+            // countrydetails.forEach((ele) => console.log(ele.flag));
+            // countrydetails.forEach((ele) => console.log(ele.capital));
+// Q.No.4 Total population of all countries
+            var D = countrydetails.map((ele)=>ele.population);
+            var Q4 = D.reduce((acc,ele)=>acc+ele);
+            // console.log(Q4);
+// Q.No.5 countries using Dollars as a currency
+            var E = countrydetails.filter((b)=>{
+                if(b.currencies) {
+                    let A = Object.keys(b.currencies)
+                    if(A.includes("USD")) {
+                        // console.log(b.name.common);
+                        return b;
+                    }
+                }
+            });
+                               
+            // console.log(E);
+           
+        }
+        else {
+            console.log("request failed",xhr.status);
+        }
+    };
+        xhr.send();
+    </script>
+</body>
+</html>
